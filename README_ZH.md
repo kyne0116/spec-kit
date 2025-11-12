@@ -47,7 +47,54 @@ uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME
 
 持久化安装的优势：工具保持安装状态并在 PATH 中可用、无需创建 shell 别名、可以使用 `uv tool list`/`upgrade`/`uninstall` 管理工具、更简洁的 shell 配置。
 
-### 2. 规格驱动开发工作流
+### 2.使用场景示例
+
+#### 基本使用
+
+```bash
+# 创建新项目
+specify init my-project
+
+# 指定 AI 助手
+specify init my-project --ai claude
+
+# 检查系统要求
+specify check
+```
+
+#### 在当前目录初始化
+
+```bash
+# 方式 1：使用 .
+specify init . --ai copilot
+
+# 方式 2：使用 --here
+specify init --here --ai copilot
+
+# 强制覆盖（跳过确认）
+specify init . --force --ai claude
+specify init . --force --ai qwen
+```
+
+#### 高级选项
+
+```bash
+# PowerShell 脚本（Windows）
+specify init my-project --ai copilot --script ps
+
+# 调试模式
+specify init my-project --ai claude --debug
+
+# 使用 GitHub 令牌（企业环境）
+specify init my-project --ai claude --github-token ghp_your_token_here
+
+# 跳过工具检查
+specify init my-project --ai claude --ignore-agent-tools
+```
+
+
+
+### 3. 规格驱动开发工作流
 
 在项目目录中启动你的 AI 助手，按以下步骤进行开发：
 
@@ -79,6 +126,18 @@ uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME
 /speckit.specify 构建一个应用程序，帮助我将照片组织到不同的相册中。相册按日期分组，可以在主页面上通过拖放重新组织。相册不会嵌套在其他相册中。在每个相册内，照片以瓦片式界面预览。
 ```
 
+#### 步骤 2.1：验证需求完整性（可选）
+
+```bash
+/speckit.checklist  # 生成质量检查清单，验证需求的完整性、清晰度和一致性
+```
+
+#### 步骤 2.2：澄清规格说明（可选）
+
+```bash
+/speckit.clarify  # 澄清规格不足的区域，建议在创建技术计划之前使用
+```
+
 #### 步骤 3：创建技术实施计划
 
 ```bash
@@ -89,6 +148,12 @@ uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME
 
 ```bash
 /speckit.tasks
+```
+
+#### 步骤 4.1：一致性分析（可选）
+
+```bash
+/speckit.analyze  # 跨工件一致性和覆盖率分析，建议在执行实施之前运行
 ```
 
 #### 步骤 5：执行实施
@@ -120,120 +185,7 @@ uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME
 | [Amp](https://ampcode.com/) | ✅ | |
 | [Amazon Q Developer CLI](https://aws.amazon.com/developer/learning/q-developer-cli/) | ⚠️ | [不支持](https://github.com/aws/amazon-q-developer-cli/issues/3064)斜杠命令的自定义参数 |
 
-## 🔧 Specify CLI 参考
 
-### 命令概览
-
-| 命令     | 描述                                                    |
-|-------------|----------------------------------------------------------------|
-| `init`      | 从最新模板初始化一个新的 Specify 项目      |
-| `check`     | 检查已安装的工具（`git`、`claude`、`gemini`、`code`/`code-insiders`、`cursor-agent`、`windsurf`、`qwen`、`opencode`、`codex`） |
-
-### `specify init` 参数和选项
-
-| 参数/选项        | 类型     | 描述                                                                  |
-|------------------------|----------|------------------------------------------------------------------------------|
-| `<project-name>`       | 参数 | 新项目目录的名称（使用 `.` 或 `--here` 表示当前目录） |
-| `--ai`                 | 选项   | AI 助手：`claude`、`gemini`、`copilot`、`cursor-agent`、`qwen`、`opencode`、`codex`、`windsurf`、`kilocode`、`auggie`、`roo`、`codebuddy`、`amp` 或 `q` |
-| `--script`             | 选项   | 脚本变体：`sh`（bash/zsh）或 `ps`（PowerShell）                 |
-| `--ignore-agent-tools` | 标志     | 跳过对 AI 智能体工具的检查                             |
-| `--no-git`             | 标志     | 跳过 git 仓库初始化                                          |
-| `--here`               | 标志     | 在当前目录中初始化项目   |
-| `--force`              | 标志     | 强制合并/覆盖（跳过确认） |
-| `--skip-tls`           | 标志     | 跳过 SSL/TLS 验证（不推荐）                                 |
-| `--debug`              | 标志     | 启用详细的调试输出                            |
-| `--github-token`       | 选项   | GitHub 令牌（或设置 GH_TOKEN/GITHUB_TOKEN 环境变量）  |
-
-### 使用场景示例
-
-#### 基本使用
-
-```bash
-# 创建新项目
-specify init my-project
-
-# 指定 AI 助手
-specify init my-project --ai claude
-
-# 检查系统要求
-specify check
-```
-
-#### 在当前目录初始化
-
-```bash
-# 方式 1：使用 .
-specify init . --ai copilot
-
-# 方式 2：使用 --here
-specify init --here --ai copilot
-
-# 强制覆盖（跳过确认）
-specify init . --force --ai claude
-specify init . --force --ai qwen
-```
-
-#### 特定 AI 助手
-
-```bash
-# Cursor
-specify init my-project --ai cursor-agent
-
-# Windsurf
-specify init my-project --ai windsurf
-
-# Qwen
-specify init my-project --ai qwen
-
-# Gemini（跳过 git）
-specify init my-project --ai gemini --no-git
-```
-
-#### 高级选项
-
-```bash
-# PowerShell 脚本（Windows）
-specify init my-project --ai copilot --script ps
-
-# 调试模式
-specify init my-project --ai claude --debug
-
-# 使用 GitHub 令牌（企业环境）
-specify init my-project --ai claude --github-token ghp_your_token_here
-
-# 跳过工具检查
-specify init my-project --ai claude --ignore-agent-tools
-```
-
-### 可用的斜杠命令
-
-运行 `specify init` 后，你的 AI 编码智能体将可以访问以下命令：
-
-#### 核心命令
-
-| 命令                  | 描述                                                           |
-|--------------------------|-----------------------------------------------------------------------|
-| `/speckit.constitution`  | 创建或更新项目治理原则和开发指南 |
-| `/speckit.specify`       | 定义你想要构建什么（需求和用户故事）        |
-| `/speckit.plan`          | 使用你选择的技术栈创建技术实施计划     |
-| `/speckit.tasks`         | 为实施生成可执行的任务列表                     |
-| `/speckit.implement`     | 执行所有任务以按计划构建功能         |
-
-#### 可选命令
-
-| 命令              | 描述                                                           |
-|----------------------|-----------------------------------------------------------------------|
-| `/speckit.clarify`   | 澄清规格不足的区域（建议在 `/speckit.plan` 之前使用） |
-| `/speckit.analyze`   | 跨工件一致性和覆盖率分析（在 `/speckit.tasks` 之后、`/speckit.implement` 之前运行） |
-| `/speckit.checklist` | 生成自定义质量检查清单，验证需求的完整性、清晰度和一致性 |
-
-### 环境变量
-
-| 变量         | 描述                                                                                    |
-|------------------|------------------------------------------------------------------------------------------------|
-| `SPECIFY_FEATURE` | 覆盖非 Git 仓库的功能检测。设置为功能目录名称（例如 `001-photo-albums`）以在不使用 Git 分支时处理特定功能。**必须在使用 `/speckit.plan` 或后续命令之前设置。** |
-
-## 📚 核心理念
 
 规格驱动开发是一个结构化的流程，强调：
 
