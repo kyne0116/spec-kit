@@ -130,28 +130,28 @@ specify init my-project --ai claude --ignore-agent-tools
 /speckit.clarify  # 澄清规格不足的区域，减少下游返工
 ```
 
-#### 步骤 4：质量检查清单（直接执行且可选）
-
-```bash
-/speckit.checklist  # 生成质量检查清单，验证需求的完整性、清晰度和一致性
-```
-
-#### 步骤 5：创建技术实施计划
+#### 步骤 4：创建技术实施计划
 
 ```bash
 /speckit.plan 应用程序使用 Vite，库的数量最少。尽可能使用原生 HTML、CSS 和 JavaScript。图片不会上传到任何地方，元数据存储在本地 SQLite 数据库中。
 ```
 
-#### 步骤 6：分解为任务（直接执行）
+#### 步骤 5：分解为任务（直接执行）
 
 ```bash
 /speckit.tasks
 ```
 
-#### 步骤 7：一致性分析（直接执行且可选）
+#### 步骤 6：一致性分析（直接执行且可选）
 
 ```bash
 /speckit.analyze  # 跨工件一致性和覆盖率分析，在 /speckit.tasks 之后、/speckit.implement 之前运行
+```
+
+#### 步骤 7：质量检查清单（直接执行且可选）
+
+```bash
+/speckit.checklist  # 生成质量检查清单，验证需求的完整性、清晰度和一致性
 ```
 
 #### 步骤 8：执行实施（直接执行）
